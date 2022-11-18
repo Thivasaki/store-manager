@@ -3,7 +3,7 @@ const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 
 const app = require('../../../src/app');
-const conn = require('../../../src/models/db/connection')
+const conn = require('../../../src/models/connection')
 const { expect, use } = chai;
 
 use(chaiHttp);
