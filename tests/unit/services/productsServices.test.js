@@ -4,7 +4,7 @@ const sinon = require('sinon')
 const { findAll, findById } = require('../../../src/services/product.service');
 const { productModel } = require('../../../src/models')
 
-describe('Verificar validações de values do services', function () {
+describe('Testes de unidade do service dos produtos', function () {
   afterEach(sinon.restore)
   it('Busca por todos os produtos', async function () {
     const output = [

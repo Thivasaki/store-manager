@@ -1,12 +1,10 @@
 const chai = require('chai');
-const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 
-const app = require('../../../src/app');
+const { productModel } = require('../../../src/models')
 const conn = require('../../../src/models/connection')
-const { expect, use } = chai;
 
-use(chaiHttp);
+const { expect } = chai;
 
     const mockDb = [
       {
@@ -23,19 +21,16 @@ use(chaiHttp);
       }
     ];
 
-describe('Testando o GET na rota "/products"', function () {
-  beforeEach(function () {
-    sinon.stub(conn, 'execute').resolves([mockDb])
-  })
+describe('Testes de unidade do model de produtos', function () {
 
   afterEach(sinon.restore)
 
   it('Testar o retorno dos produtos sem especificar id', async function () {
-    const res = await chai.request(app).get('/products')
+    sinon.stub(conn, 'execute').resolves([mockDb]);
 
-    expect(res.status).to.be.equal(200);
-    expect(res.body).to.deep.equal(mockDb);
-    sinon.restore();
+    const result = await productModel.findAll();
+
+    expect(result).to.be.deep.equal(mockDb);
   })
 
   it('Testar o retorno dos produtos com id especificado', async function () {
@@ -45,21 +40,9 @@ describe('Testando o GET na rota "/products"', function () {
         "name": "Martelo de Thor"
       };
 
-    const res = await chai.request(app).get('/products/1')
+    sinon.stub(conn, 'execute').resolves([outputExpect])
+    const result = await productModel.findById();
 
-    expect(res.status).to.be.equal(200);
-    expect(res.body).to.deep.equal(outputExpect);
-  })
-  
-  it('Testar o retorno dos produtos com id errado', async function () {
-     const outputExpect =
-      {
-        "message": "Product not found"
-      };
-
-     const res = await chai.request(app).get('/products/6')
-
-    expect(res.status).to.be.equal(404);
-    expect(res.body).to.deep.equal(outputExpect);
+    expect(result).to.deep.equal(outputExpect);
   })
 })
