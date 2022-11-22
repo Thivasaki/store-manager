@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon')
 
-const { findAll, findById } = require('../../../src/services/product.service');
+const { productService } = require('../../../src/services');
 const { productModel } = require('../../../src/models')
 
 describe('Testes de unidade do service dos produtos', function () {
@@ -21,10 +21,9 @@ describe('Testes de unidade do service dos produtos', function () {
         "name": "Escudo do Capitão América"
       }
     ];
-
     sinon.stub(productModel, 'findAll').resolves(output)
 
-    const allProducts = await findAll()
+    const allProducts = await productService.findAll()
 
     expect(allProducts.message).to.deep.equal(output)
   })
@@ -32,7 +31,7 @@ describe('Testes de unidade do service dos produtos', function () {
   it('Busca por produto com id inválido', async function () {
      const output = 'INVALID_VALUE';
 
-    const product = await findById('xablau')
+    const product = await productService.findById('xablau')
 
     expect(product.type).to.deep.equal(output)
   })
@@ -41,7 +40,7 @@ describe('Testes de unidade do service dos produtos', function () {
     const output = 'PRODUCT_NOT_FOUND';
     sinon.stub(productModel, 'findById').resolves([])
 
-    const product = await findById(34)
+    const product = await productService.findById(34)
 
     expect(product.type).to.deep.equal(output)
   })
@@ -54,7 +53,7 @@ describe('Testes de unidade do service dos produtos', function () {
 
     sinon.stub(productModel, 'findById').resolves([output])
 
-    const product = await findById(1)
+    const product = await productService.findById(1)
 
     expect(product.type).to.be.null
     expect(product.message).to.deep.equal(output)

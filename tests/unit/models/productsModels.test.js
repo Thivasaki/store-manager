@@ -6,6 +6,12 @@ const conn = require('../../../src/models/connection')
 
 const { expect } = chai;
 
+
+describe('Testes de unidade do model de produtos', function () {
+
+  afterEach(sinon.restore)
+
+  it('Testar a busca dos produtos', async function () {
     const mockDb = [
       {
         "id": 1,
@@ -20,12 +26,6 @@ const { expect } = chai;
         "name": "Escudo do Capitão América"
       }
     ];
-
-describe('Testes de unidade do model de produtos', function () {
-
-  afterEach(sinon.restore)
-
-  it('Testar o retorno dos produtos sem especificar id', async function () {
     sinon.stub(conn, 'execute').resolves([mockDb]);
 
     const result = await productModel.findAll();
@@ -33,7 +33,7 @@ describe('Testes de unidade do model de produtos', function () {
     expect(result).to.be.deep.equal(mockDb);
   })
 
-  it('Testar o retorno dos produtos com id especificado', async function () {
+  it('Testar a busca dos produtos com id especificado', async function () {
     const outputExpect =
       {
         "id": 1,
@@ -44,5 +44,16 @@ describe('Testes de unidade do model de produtos', function () {
     const result = await productModel.findById();
 
     expect(result).to.deep.equal(outputExpect);
+  })
+
+  it('Testar o retorno dos produtos sem especificar id', async function () {
+    const mockDb = {
+      "name": "ProdutoX"
+    };
+    sinon.stub(conn, 'execute').resolves([{ insertId: 4 }]);
+
+    const result = await productModel.insert(mockDb);
+
+    expect(result).to.be.deep.equal(4);
   })
 })
