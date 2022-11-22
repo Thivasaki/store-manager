@@ -59,4 +59,26 @@ describe('Testes de unidade do service dos produtos', function () {
     expect(product.message).to.deep.equal(output)
   })
 
+  it('Adicionando produto', async function () {
+    const output = {
+      "id": 4,
+      "name": "ProdutoX"
+    };
+    sinon.stub(productModel, 'insert').resolves(output.name);
+    sinon.stub(productModel, 'findById').resolves([output]);
+
+    const product = await productService.createProduct(output.name);
+
+    expect(product.type).to.be.null;
+    expect(product.message).to.deep.equal(output);
+  })
+
+  it('Falha em adicionar um produto', async function () {
+    const output = 'INVALID_VALUE';
+
+    const product = await productService.createProduct('x')
+
+    expect(product.type).to.deep.equal(output)
+  })
+
 })
