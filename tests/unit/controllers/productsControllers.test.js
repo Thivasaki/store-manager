@@ -96,4 +96,62 @@ describe('Tesets de unidade do controller de produtos', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(mockRes);
   })
+
+  it('Adicionando produto à tabela', async function () {
+    const res = {};
+    const req = {
+      body: {
+        "name": "ProdutoX"
+      },
+    };
+    const mockDb =
+      {
+        "id": 4,
+        "name": "ProdutoX",
+      };
+
+    const positiveResponse = {
+      type: null,
+      message: mockDb,
+    };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns()
+    sinon.stub(productService, 'createProduct').resolves(positiveResponse)
+
+    await productController.createProducts(req, res);
+
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith(mockDb);
+
+  })
+
+  it('Falha na criação de um produto', async function () {
+    const res = {};
+    const req = {
+      body: {
+        "name": "X"
+      },
+    };
+
+    const negativeType = 'INVALID_VALUE'
+    const negativeMenssage = '"name" length must be at least 5 characters long';
+    const negativeResponse = {
+      type: negativeType,
+      message: negativeMenssage,
+    };
+     const mockRes = {
+      message: negativeMenssage
+    }
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns()
+    sinon.stub(productService, 'createProduct').resolves(negativeResponse)
+
+    await productController.createProducts(req, res);
+
+    expect(res.status).to.have.been.calledWith(422);
+    expect(res.json).to.have.been.calledWith(mockRes);
+  })
+  
 });
