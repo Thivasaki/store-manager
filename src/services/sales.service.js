@@ -1,9 +1,21 @@
 const { salesModel, productModel } = require('../models');
-const { validateNewSalesFields } = require('./validations/validationInputValues');
+const { validateNewSalesFields, validateId } = require('./validations/validationInputValues');
 
 const findAll = async () => {
   const products = await salesModel.findAll();
   return { type: null, message: products };
+};
+
+const findById = async (id) => {
+  const error = validateId(id);
+  if (error.type) {
+    return error;
+  }
+  const sale = await salesModel.findById(id);
+  if (sale.length > 0) {
+    return { type: null, message: sale };
+  }
+  return { type: 'not.found', message: 'Sale not found' };
 };
 
 const createSale = async (saleArray) => {
@@ -26,5 +38,6 @@ const createSale = async (saleArray) => {
 
 module.exports = {
   findAll,
+  findById,
   createSale,
 };

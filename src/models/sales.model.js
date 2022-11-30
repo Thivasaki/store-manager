@@ -1,7 +1,25 @@
 const conn = require('./connection');
 
 const findAll = async () => {
-  const [result] = await conn.execute('SELECT * FROM sales_products');
+  const [result] = await conn
+    .execute(`SELECT
+    sp.sale_id AS saleId, s.date, sp.product_id AS productId, sp.quantity
+    FROM sales_products AS sp
+    INNER JOIN sales AS s
+    ON sp.sale_id = s.id;`);
+
+  return result;
+};
+
+const findById = async (id) => {
+  const [result] = await conn
+    .execute(`SELECT
+    s.date, sp.product_id AS productId, sp.quantity
+    FROM sales_products AS sp
+    INNER JOIN sales AS s
+    ON sp.sale_id = s.id
+    WHERE sale_id = ?`, [id]);
+  console.log(result);
 
   return result;
 };
@@ -24,5 +42,6 @@ const insert = async (products) => {
 
 module.exports = {
   findAll,
+  findById,
   insert,
 };
