@@ -29,7 +29,7 @@ describe('Testes de unidade do service dos produtos', function () {
   })
 
   it('Busca por produto com id inválido', async function () {
-     const output = 'INVALID_VALUE';
+     const output = 'number.base';
 
     const product = await productService.findById('xablau')
 
@@ -37,7 +37,7 @@ describe('Testes de unidade do service dos produtos', function () {
   })
 
   it('Busca de um id inexistente na lista de produtos', async function () {
-    const output = 'PRODUCT_NOT_FOUND';
+    const output =  'not.found';
     sinon.stub(productModel, 'findById').resolves([])
 
     const product = await productService.findById(34)
@@ -74,7 +74,7 @@ describe('Testes de unidade do service dos produtos', function () {
   })
 
   it('Falha em adicionar um produto', async function () {
-    const output = 'INVALID_VALUE';
+    const output = 'string.min';
 
     const product = await productService.createProduct('x')
 

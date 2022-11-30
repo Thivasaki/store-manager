@@ -15,7 +15,7 @@ const findById = async (id) => {
   if (product) {
     return { type: null, message: product };
   }
-  return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+  return { type: 'not.found', message: 'Product not found' };
 };
 
 const createProduct = async (name) => {

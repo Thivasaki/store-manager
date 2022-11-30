@@ -80,7 +80,7 @@ describe('Tesets de unidade do controller de produtos', function () {
     const mockRes = {
       message: 'Product not found'
     }
-    const negativeType = 'PRODUCT_NOT_FOUND'
+    const negativeType = 'not.found'
     const negativeMenssage = 'Product not found';
     const negativeResponse = {
       type: negativeType,
@@ -134,7 +134,7 @@ describe('Tesets de unidade do controller de produtos', function () {
       },
     };
 
-    const negativeType = 'INVALID_VALUE'
+    const negativeType = 'number.min';
     const negativeMenssage = '"name" length must be at least 5 characters long';
     const negativeResponse = {
       type: negativeType,
