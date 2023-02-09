@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "_id": "299e5f9c-c35a-49d0-81a1-6f1515d835e9",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/sales",
+    "url": "localhost:3000/products",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-30T04:30:28.690Z",
+    "modified": "2022-11-30T05:33:54.609Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Martelo do Batman\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]
